@@ -1,0 +1,89 @@
+body {
+    font-family: Helvetica;
+}
+.wrap {
+    margin: 50px;
+}
+
+/*** Map ***/
+#map-canvas{
+    height:500px;
+    width: 1000px;
+}
+
+div.tooltip {
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    padding: 4px 8px;
+    display: none;
+}
+
+.tooltip .town {
+    font-weight: bold;
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+.tooltip .value {
+    font-weight: bold;
+}
+
+.tooltip .pcts .cand,
+.tooltip .pcts .election{
+    color: #555555;
+}
+
+.tooltip .live {
+    font-size: 1.1em;
+    line-height: 1.1em;
+}
+.tooltip .live {
+    margin-bottom: 10px;
+}
+
+
+/*** Town by town chart **/
+#hack_chart_div {
+    position: absolute;
+    top: 0px;
+    z-index: 0;
+}
+
+.chart-container {
+    position: relative;
+    width: 700px;
+    height: 500px;
+}
+#visualization {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+
+
+/*** Loading overlay** ***/
+.loading-overlay {
+    width: 100%;
+    min-height: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    background-color: #8F8585;
+    color: white;
+    display: none;
+}
+
+.table {
+    text-align: center;
+    width: 100%;
+    margin-top: 13%;
+}
+
+
+.loading-overlay.active {
+    display: block;
+}

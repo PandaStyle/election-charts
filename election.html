@@ -1,0 +1,81 @@
+
+<html>
+    <head>
+    <title>tbt</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="css/election.css"/>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="js/lib/jquery-2.1.1.min.js"></script>
+
+    <script src="js/lib/underscore-min.js"></script>
+    <script src="js/lib/maps.js"></script>
+    <script src="js/lib/topojson.js"></script>
+
+    <script src="js/election.js"></script>
+
+    <script type="text/javascript">
+    google.load('visualization', '1.0', {'packages':['corechart']});
+    google.setOnLoadCallback(load_page_data);
+
+
+    </script>
+    </head>
+
+    <body>
+
+        <!--Loading overlay-->
+        <div class="loading-overlay">
+            <div class="table min-h100 center bg-red">
+                <div class="table-cell">
+                    <img src="assets/loading-bubbles.svg" width="64" height="64" />
+                    <h1 class="h1 mt2 mb0">Loading...</h1>
+                    <p class="small mb2">This could take a while</p>
+                    <div class="items">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Line chart-->
+        <div class="wrap">
+            <div id="line-visualization" style="width: 700px; height: 500px;"></div>
+        </div>
+
+        <!--Bubble chart-->
+        <div class="wrap">
+            <div class="chart-container">
+                <div id="visualization" style="width: 700px; height: 500px;"></div>
+                <div id="hack_chart_div"></div>
+            </div>
+
+
+            <span>2014 Coakley  performance compared with </span>
+            <select name="comp" id="comp">
+
+                <option value="data/2002-Gov-Gen-OBrien-and-Gabrieli.json" data-text="2002 O'Brien and Gabriel"  data-party="dem" selected>2002 Governor General DEM Obrien and Gabrieli</option>
+
+                <option value="data/2006-Gov-Gen-Patrick-and-Murray.json" data-text="2006 Patrick and Murray" data-party="dem">2006 Governor General DEM Patrick and Murray</option>
+
+                <option value="data/2010-Gov-Gen-Patrick-and-Murray.json" data-text="2010 Patrick and Murray" data-party="dem">2010 Governor General DEM Patrick and Murray</option>
+                <option value="data/2012-US-Senate-Elizabeth-A-Warren.json" data-text="2012 Elizabeth A Warren" data-party="dem">2012 US Senate DEM Elizabeth A Warren</option>
+                <option value="data/2010-US-Special-Senate-Martha-Coakley.json" data-text="2010 Special Senate Martha Coackley" data-party="dem">2010 Special Senate DEM Martha Coackleyy</option>
+            </select>
+        </div>
+
+        <!--Map-->
+        <div class="wrap">
+            <div id="map-canvas"></div>
+
+            <div class="tooltip">
+                <span class="town">fdsfsdfds</span>
+                <div class="live"></div>
+                <div class="pcts"></div>
+            </div>
+        </div>
+
+    </body>
+</html>
