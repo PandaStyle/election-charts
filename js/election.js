@@ -2,22 +2,13 @@ var data2002GOVDem,
     data2006GOVDem,
     data2010GOVDem,
 
-    data2010SpecSenate,
+    data2010SpecialSenate,
 
     data2012Senate,
 
-    dataLive,
+    data2013SpecialSenate,
 
-
-    data2002GOVDemNUM,
-    data2006GOVDemNUM,
-    data2010GOVDemNUM,
-
-    data2010SpecSenateNUM,
-
-    data2012SenateNUM,
-
-    dataLiveNUM;
+    dataLive;
 
 
 var url2002GovDem =  'data/2002-Gov-Gen-OBrien-and-Gabrieli.json',
@@ -28,7 +19,9 @@ var url2002GovDem =  'data/2002-Gov-Gen-OBrien-and-Gabrieli.json',
 
     url2012Senate = 'data/2012-US-Senate-Elizabeth-A-Warren.json',
 
-    urlLive = 'data/2014-Gov-Gen-Coakley-GENERATED-FROM-2010PATRICK.json';
+    url2013SpecialSenate = 'data/2013-US-Special-Senate-Edward-J-Markey.json',
+
+    urlLive = 'http://ma-staging.electionstats.com/elections/get_granular_margins_ap/22003/36385859.json';
 
 
 var ma_localities = ["Abington",
@@ -737,15 +730,15 @@ var ma_localities = ["Abington",
 
 function load_page_data(){
 
-
     $.when(
         $.getJSON(url2002GovDem),
         $.getJSON(url2006GovDem),
         $.getJSON(url2010GovDem),
         $.getJSON(url2010SpecialSenate),
         $.getJSON(url2012Senate),
+        $.getJSON(url2013SpecialSenate),
         $.getJSON(urlLive)
-    ).done(function(x, y, z, v, w, u) {
+    ).done(function(x, y, z, v, w, k, u) {
 
             data2002GOVDem = _.map(x[0].output.margins.pct_votes, function(a, b){
                 return [b, a];
@@ -756,31 +749,17 @@ function load_page_data(){
                 data2010GOVDem =  _.map(z[0].output.margins.pct_votes, function(a, b){
                     return [b, a];
                 }),
-                data2010SpecSenate = _.map(v[0].output.margins.pct_votes, function(a, b){
+                data2010SpecialSenate = _.map(v[0].output.margins.pct_votes, function(a, b){
                     return [b, a];
                 }),
                 data2012Senate = _.map(w[0].output.margins.pct_votes, function(a, b){
                     return [b, a];
                 }),
+                data2013SpecialSenate = _.map(k[0].output.margins.pct_votes, function(a, b){
+                    return [b, a];
+                }),
 
                 dataLive = _.map(u[0].output.margins.pct_votes, function(a, b){
-                    return [b, a];
-                }),
-
-
-                data2002GOVDemNUM = _.map(x[0].output.margins.n_votes, function(a, b){
-                    return [b, a];
-                }),
-                data2006GOVDemNUM =  _.map(y[0].output.margins.n_votes, function(a, b){
-                    return [b, a];
-                }),
-                data2010GOVDemNUM =  _.map(z[0].output.margins.n_votes, function(a, b){
-                    return [b, a];
-                }),
-                data2010SpecSenateNUM = _.map(v[0].output.margins.n_votes, function(a, b){
-                    return [b, a];
-                }),
-                data2012SenateNUM = _.map(w[0].output.margins.n_votes, function(a, b){
                     return [b, a];
                 });
 
@@ -808,7 +787,7 @@ function LineChart(){
         dataTable,
         chart,
 
-        url = "http://ma-staging.electionstats.com/elections/get_granular_margins_ap/22003/36385859.json?test=",
+        url = "http://ma-staging.electionstats.com/elections/get_granular_margins_ap/22003/36385859.json",
 
         options = {
             series: {
@@ -872,7 +851,7 @@ function LineChart(){
                 addRowstoChart(array, i);
 
                 var b = new Date();
-                $('.l').remove();
+
                 console.log("GETLIVEDATA END, time taken: " + Math.abs(b.getTime() - a.getTime()) + "ms");
                 i++;
                 if(i==maxcount){
@@ -893,7 +872,7 @@ function LineChart(){
             url2010SpecialSenate: 'http://ma-staging.electionstats.com/elections/get_granular_margins/14528/Martha-Coakley.json',
             url2012Senate: 'http://ma-staging.electionstats.com/elections/get_granular_margins/22519/Elizabeth-A-Warren.json',
             url2013SpecialSenate: 'http://ma-staging.electionstats.com/elections/get_granular_margins/24364/Edward-J-Markey.json'
-        }
+        };
 
         for(var i in urls){
             var url = urls[i];
@@ -961,19 +940,14 @@ function LineChart(){
 }
 
 function Tbt(){
-    var liveURL = "data/2014-Gov-Gen-Coakley-GENERATED-FROM-2010PATRICK.json";
 
-    /* UNCOMMNENT this callback when switching back to static from meteor*/
-    // google.setOnLoadCallback(function(){
-
-    compare(liveURL, $('#comp').val());
+    compare(urlLive, $('#comp').val());
     hideOptions();
-
 
     $('#base, #comp').change(function(){
 
         hideOptions();
-        var b = liveURL,
+        var b = urlLive,
             c = $('#comp').val();
 
         compare(b,c);
@@ -981,7 +955,7 @@ function Tbt(){
     });
 
     drawAxis();
-    //   });
+
 
     function compare(baseElectionJsonUrl, toCompareJsonUrl){
 
@@ -1206,8 +1180,9 @@ function Map() {
                             {arr: data2002GOVDem, text: '2002 Governor General', cand: 'Romney and Healy'},
                             {arr: data2006GOVDem, text: '2006 Governor General', cand: 'Patrick and Murray'},
                             {arr: data2010GOVDem, text: '2010 Governor General', cand: 'Patrick and Murray'},
-                            {arr: data2010SpecSenate, text: '2010 Special Senate ', cand: 'Martha Coakley'},
-                            {arr: data2012Senate, text: '2012 U.S. Senate', cand: 'Elizabeth A Warren'}
+                            {arr: data2010SpecialSenate, text: '2010 Special Senate ', cand: 'Martha Coakley'},
+                            {arr: data2012Senate, text: '2012 U.S. Senate', cand: 'Elizabeth A Warren'},
+                            {arr: data2013SpecialSenate, text: '2013 Special Senate ', cand: 'Edward J. Markey'}
                         ];
 
 
@@ -1264,15 +1239,5 @@ function Map() {
 
 }
 
-
-function showLoading(what){
-    $('.loading-overlay').show();
-    $('.loading-overlay').find('.items').empty().append($('<div>' + what +'</div>'));
-}
-
-function hideLoading(){
-    $('.loading-overlay').hide();
-    $('.loading-overlay').find('.items').empty();
-}
 
 
